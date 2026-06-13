@@ -8,10 +8,21 @@ import (
 
 func main() {
 
-	fmt.Println("Welcome to Doro")
+	
+	fmt.Println("\n------------- Welcome to Doro -------------")
 
-	timer := timer.New(25 * time.Minute)
+	timer := timer.New(10 * time.Second)
 
-	fmt.Println(timer)
+	for !timer.IsFinished() {
+
+		fmt.Println(timer.FormatRemaining())
+
+		time.Sleep(time.Second)
+
+		timer.Tick()
+
+	}
+
+	fmt.Println("Done!!!!!")
 
 }
