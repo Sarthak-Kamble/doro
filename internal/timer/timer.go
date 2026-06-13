@@ -7,7 +7,7 @@ import (
 
 // Struct
 type Timer struct {
-	Duration time.Duration
+	Duration  time.Duration
 	Remaining time.Duration
 }
 
@@ -44,16 +44,3 @@ func (t *Timer) FormatRemaining() string {
 
 	return fmt.Sprintf("%02d:%02d", minutes, seconds)
 }
-
-// * Start Method for starting a Timer
-// func (t *Timer) Start(){
-
-// 	for t.Remaining > 0 {
-// 		fmt.Println(t.FormatRemaining())
-
-// 		time.Sleep(time.Second)
-
-// 		t.Remaining -= time.Second
-// 	}
-
-// }
