@@ -13,7 +13,7 @@ var (
 
 var rootCmd = &cobra.Command{
 	Use:   "doro",
-	Short: "A terminal based Pomodoro timer",
+	Short: "\nA terminal based Pomodoro timer",
 
 	Long: `
 Doro helps you focus using the Pomodoro technique.

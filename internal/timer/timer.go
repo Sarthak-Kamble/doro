@@ -20,7 +20,6 @@ func New(duration time.Duration) *Timer {
 }
 
 // Methods in Golang
-
 func (t *Timer) Tick() {
 
 	if t.Remaining > 0 {
