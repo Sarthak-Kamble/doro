@@ -43,3 +43,9 @@ func (t *Timer) FormatRemaining() string {
 
 	return fmt.Sprintf("%02d:%02d", minutes, seconds)
 }
+
+// * Reset Method
+
+func (t *Timer) Reset() {
+	t.Remaining = t.Duration
+}

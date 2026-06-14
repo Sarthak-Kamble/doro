@@ -1,7 +1,8 @@
 package cmd
 
 import (
-	"doro/internal/app"
+	"doro/internal/config"
+	"doro/internal/ui"
 	"fmt"
 	"time"
 
@@ -15,17 +16,17 @@ var startCmd = &cobra.Command{
 	Use:   "start",
 	Short: "Start a pomodoro session",
 
-	Run: func(cmd *cobra.Command, args []string) {
+	// Run: func(cmd *cobra.Command, args []string) {
 
-		fmt.Println("Starting Doro")
+	// 	fmt.Println("Starting Doro")
 
-		p := app.NewDoro(
-			time.Duration(duration) * time.Minute,
-		)
+	// 	p := app.NewDoro(
+	// 		time.Duration(duration) * time.Minute,
+	// 	)
 
-		p.Start()
+	// 	p.Start()
 
-	},
+	// },
 
 	RunE: func(cmd *cobra.Command, args []string) error {
 
@@ -35,15 +36,11 @@ var startCmd = &cobra.Command{
 			)
 		}
 
-		fmt.Println("Starting Doro")
+		cfg := config.Config{
+			WorkDuration: time.Duration(duration) * time.Minute,
+		}
 
-		p := app.NewDoro(
-			time.Duration(duration) * time.Minute,
-		)
-
-		p.Start()
-
-		return nil
+		return ui.Run(cfg)
 	},
 }
 
