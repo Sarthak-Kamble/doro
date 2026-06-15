@@ -86,6 +86,10 @@ func (m Model) View() string {
 		status = "Paused"
 	}
 
+	if m.timer.Remaining <= 0 {
+		status = "Completed"
+	}
+
 	title := titleStyle.Render(
 		"🍅 Doro",
 	)
@@ -129,20 +133,59 @@ func (m Model) progress() float64 {
 	return remaining / total
 }
 
+// func (m Model) progressBar() string {
+
+// 	width := 30
+
+// 	filled := int(
+// 		m.progress() * float64(width),
+// 	)
+
+// 	return strings.Repeat(
+// 		"█",
+// 		filled,
+// 	) +
+// 		strings.Repeat(
+// 			"░",
+// 			width-filled,
+// 		)
+// }
+
 func (m Model) progressBar() string {
 
-	width := 30
+	width := 35
 
 	filled := int(
 		m.progress() * float64(width),
 	)
 
-	return strings.Repeat(
-		"█",
-		filled,
-	) +
-		strings.Repeat(
-			"░",
-			width-filled,
+
+	var bar strings.Builder
+
+
+	for i := 0; i < filled; i++ {
+
+		position := float64(i) / float64(width)
+
+		bar.WriteString(
+			gradientBlock(position),
 		)
+	}
+
+
+	empty := lipgloss.NewStyle().
+		Foreground(
+			lipgloss.Color("#444444"),
+		)
+
+
+	for i := filled; i < width; i++ {
+
+		bar.WriteString(
+			empty.Render("░"),
+		)
+	}
+
+
+	return bar.String()
 }
