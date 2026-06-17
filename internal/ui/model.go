@@ -1,8 +1,8 @@
 package ui
 
 import (
+	"doro/internal/app"
 	"doro/internal/config"
-	"doro/internal/timer"
 	"strings"
 	"time"
 
@@ -12,15 +12,19 @@ import (
 
 type tickMsg struct{}
 
+// type Model struct {
+// 	timer  *timer.Timer
+// 	paused bool
+// }
+
 type Model struct {
-	timer  *timer.Timer
-	paused bool
+	doro *app.Doro
 }
 
 func NewModel(cfg config.Config) Model {
 
 	return Model{
-		timer: timer.New(
+		doro: app.NewDoro(
 			cfg.WorkDuration,
 		),
 	}
@@ -50,10 +54,7 @@ func (m Model) Update(
 
 	case tickMsg:
 
-		if !m.paused {
-			m.timer.Tick()
-		}
-
+		m.doro.Tick()
 		return m, tickCmd()
 
 	case tea.KeyMsg:
@@ -61,10 +62,10 @@ func (m Model) Update(
 		switch msg.String() {
 
 		case " ":
-			m.paused = !m.paused
+			m.doro.IsPaused()
 
 		case "r":
-			m.timer.Reset()
+			m.doro.Reset()
 
 		case "q", "ctrl+c":
 			// return m, tea.Quit
@@ -82,11 +83,11 @@ func (m Model) View() string {
 
 	status := "Running"
 
-	if m.paused {
+	if m.doro.IsPaused() {
 		status = "Paused"
 	}
 
-	if m.timer.Remaining <= 0 {
+	if m.doro.Timer.Remaining <= 0 {
 		status = "Completed"
 	}
 
@@ -95,7 +96,8 @@ func (m Model) View() string {
 	)
 
 	timer := timerStyle.Render(
-		m.timer.FormatRemaining(),
+		// m.timer.FormatRemaining(),
+		m.doro.Timer.FormatRemaining(),
 	)
 
 	bar := timerStyle.Render(
@@ -126,30 +128,12 @@ func (m Model) View() string {
 
 func (m Model) progress() float64 {
 
-	total := m.timer.Duration.Seconds()
+	total := m.doro.Timer.Duration.Seconds()
 
-	remaining := m.timer.Remaining.Seconds()
+	remaining := m.doro.Timer.Remaining.Seconds()
 
 	return remaining / total
 }
-
-// func (m Model) progressBar() string {
-
-// 	width := 30
-
-// 	filled := int(
-// 		m.progress() * float64(width),
-// 	)
-
-// 	return strings.Repeat(
-// 		"█",
-// 		filled,
-// 	) +
-// 		strings.Repeat(
-// 			"░",
-// 			width-filled,
-// 		)
-// }
 
 func (m Model) progressBar() string {
 
