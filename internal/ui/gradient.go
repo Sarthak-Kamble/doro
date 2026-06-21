@@ -7,8 +7,8 @@ import (
 )
 
 var gradientStops = [][3]int{
-	{255, 0, 204}, 
-	{51, 51, 153}, 
+	{255, 0, 204},
+	{51, 51, 153},
 }
 
 func interpolateColor(position float64) string {

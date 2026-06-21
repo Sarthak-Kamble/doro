@@ -17,11 +17,10 @@ type Model struct {
 	doro *app.Doro
 }
 
-
 func NewModel(cfg config.Config) Model {
-    return Model{
-        doro: app.NewDoro(cfg),
-    }
+	return Model{
+		doro: app.NewDoro(cfg),
+	}
 }
 
 func tickCmd() tea.Cmd {

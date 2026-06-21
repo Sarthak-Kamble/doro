@@ -39,7 +39,7 @@ func (t *Timer) IsFinished() bool {
 func (t *Timer) ResetDuration(
 	duration time.Duration,
 ) {
-	
+
 	t.Duration = duration
 
 	t.Remaining = duration
@@ -61,5 +61,3 @@ func (t *Timer) FormatRemaining() string {
 func (t *Timer) Reset() {
 	t.Remaining = t.Duration
 }
-
-

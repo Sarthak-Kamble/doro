@@ -15,13 +15,11 @@ const (
 )
 
 type Doro struct {
-	
 	Timer   *timer.Timer
-	config config.Config
+	config  config.Config
 	phase   Phase
 	session int
 	paused  bool
-
 }
 
 // func NewDoro(
@@ -37,12 +35,12 @@ type Doro struct {
 // }
 
 func NewDoro(cfg config.Config) *Doro {
-    return &Doro{
-        Timer:   timer.New(cfg.WorkDuration),
-        config:  cfg,
-        phase:   Work,
-        session: 1,
-    }
+	return &Doro{
+		Timer:   timer.New(cfg.WorkDuration),
+		config:  cfg,
+		phase:   Work,
+		session: 1,
+	}
 }
 
 func (p *Doro) durationForPhase() time.Duration {
@@ -87,7 +85,7 @@ func (p *Doro) durationForPhase() time.Duration {
 
 // 	p.Timer.ResetDuration(
 // 		p.durationForPhase(),
-// 	) 
+// 	)
 
 // }
 
@@ -101,7 +99,6 @@ func (p *Doro) nextPhase() {
 	case ShortBreak:
 		p.phase = Work
 	}
-
 
 	p.Timer.ResetDuration(
 		p.durationForPhase(),
