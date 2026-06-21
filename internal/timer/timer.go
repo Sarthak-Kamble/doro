@@ -22,15 +22,27 @@ func New(duration time.Duration) *Timer {
 // Methods in Golang
 func (t *Timer) Tick() {
 
-	if t.Remaining > 0 {
-		t.Remaining -= time.Second
+	if t.Remaining <= 0 {
+		return
 	}
+
+	t.Remaining -= time.Second
 
 }
 
 func (t *Timer) IsFinished() bool {
 
 	return t.Remaining <= 0
+
+}
+
+func (t *Timer) ResetDuration(
+	duration time.Duration,
+) {
+	
+	t.Duration = duration
+
+	t.Remaining = duration
 
 }
 
@@ -49,3 +61,5 @@ func (t *Timer) FormatRemaining() string {
 func (t *Timer) Reset() {
 	t.Remaining = t.Duration
 }
+
+

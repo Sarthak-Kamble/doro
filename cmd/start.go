@@ -16,18 +16,6 @@ var startCmd = &cobra.Command{
 	Use:   "start",
 	Short: "Start a pomodoro session",
 
-	// Run: func(cmd *cobra.Command, args []string) {
-
-	// 	fmt.Println("Starting Doro")
-
-	// 	p := app.NewDoro(
-	// 		time.Duration(duration) * time.Minute,
-	// 	)
-
-	// 	p.Start()
-
-	// },
-
 	RunE: func(cmd *cobra.Command, args []string) error {
 
 		if duration <= 0 {
@@ -38,6 +26,10 @@ var startCmd = &cobra.Command{
 
 		cfg := config.Config{
 			WorkDuration: time.Duration(duration) * time.Minute,
+
+			ShortBreakDuration: 5 * time.Minute,
+
+			LongBreakDuration: 15 * time.Minute,
 		}
 
 		return ui.Run(cfg)

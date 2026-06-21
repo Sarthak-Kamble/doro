@@ -3,6 +3,7 @@ package ui
 import (
 	"doro/internal/app"
 	"doro/internal/config"
+	"fmt"
 	"strings"
 	"time"
 
@@ -12,22 +13,15 @@ import (
 
 type tickMsg struct{}
 
-// type Model struct {
-// 	timer  *timer.Timer
-// 	paused bool
-// }
-
 type Model struct {
 	doro *app.Doro
 }
 
-func NewModel(cfg config.Config) Model {
 
-	return Model{
-		doro: app.NewDoro(
-			cfg.WorkDuration,
-		),
-	}
+func NewModel(cfg config.Config) Model {
+    return Model{
+        doro: app.NewDoro(cfg),
+    }
 }
 
 func tickCmd() tea.Cmd {
@@ -41,9 +35,7 @@ func tickCmd() tea.Cmd {
 }
 
 func (m Model) Init() tea.Cmd {
-
 	return tickCmd()
-
 }
 
 func (m Model) Update(
@@ -81,6 +73,10 @@ func (m Model) Update(
 
 func (m Model) View() string {
 
+	phase := m.doro.CurrentPhase()
+
+	session := m.doro.Session()
+
 	status := "Running"
 
 	if m.doro.IsPaused() {
@@ -91,12 +87,17 @@ func (m Model) View() string {
 		status = "Completed"
 	}
 
+	phaseText := fmt.Sprintf(
+		"%s | Session %d/4",
+		phase.String(),
+		session,
+	)
+
 	title := titleStyle.Render(
 		"🍅 Doro",
 	)
 
 	timer := timerStyle.Render(
-		// m.timer.FormatRemaining(),
 		m.doro.Timer.FormatRemaining(),
 	)
 
@@ -117,6 +118,8 @@ func (m Model) View() string {
 		title,
 		"",
 		timer,
+		"",
+		phaseText,
 		"",
 		bar,
 		"",
@@ -143,9 +146,7 @@ func (m Model) progressBar() string {
 		m.progress() * float64(width),
 	)
 
-
 	var bar strings.Builder
-
 
 	for i := 0; i < filled; i++ {
 
@@ -156,12 +157,10 @@ func (m Model) progressBar() string {
 		)
 	}
 
-
 	empty := lipgloss.NewStyle().
 		Foreground(
 			lipgloss.Color("#444444"),
 		)
-
 
 	for i := filled; i < width; i++ {
 
@@ -169,7 +168,6 @@ func (m Model) progressBar() string {
 			empty.Render("░"),
 		)
 	}
-
 
 	return bar.String()
 }

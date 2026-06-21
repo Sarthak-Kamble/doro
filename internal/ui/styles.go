@@ -11,6 +11,10 @@ var (
 			Bold(true).
 			Align(lipgloss.Center).PaddingLeft(2).PaddingRight(2)
 
+	sessionStyle = lipgloss.NewStyle().
+			Bold(true).
+			Align(lipgloss.Center).PaddingLeft(2).PaddingRight(2)
+
 	statusStyle = lipgloss.NewStyle().
 			Italic(true).
 			Align(lipgloss.Center).PaddingLeft(2).PaddingRight(2)
