@@ -53,8 +53,7 @@ func (m Model) Update(
 		switch msg.String() {
 
 		case " ":
-			m.doro.IsPaused()
-
+				m.doro.TogglePause()
 		case "r":
 			m.doro.Reset()
 
